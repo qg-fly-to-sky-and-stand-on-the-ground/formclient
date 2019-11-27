@@ -293,13 +293,13 @@
             </td>
             <td class="td6" colspan="4">
               <p class="p5">
-                <span writeable="true" nameEn="key9" class="dom">□单选a</span>
+                <span writeable="true" nameEn="key9" class="dom">☑单选a</span>
               </p>
               <p class="p5">
-                <span writeable="true" nameEn="key10" class="dom">□单选b</span>
+                <span writeable="true" nameEn="key10" class="dom">☑单选b</span>
               </p>
               <p class="p5">
-                <span writeable="true" nameEn="key11" class="dom">□单选c</span>
+                <span writeable="true" nameEn="key11" class="dom">☑单选c</span>
               </p>
             </td>
           </tr>
@@ -326,13 +326,15 @@ export default class userPage extends Vue {
 
   mounted() {
     this.getConstraint();
+    // getConstraint()->getHtml()->init()->getDate()->upDate()
+    // 获取约束->获取表格HTML->初始化表格->获取表格数据->还原表格数据
   }
 
+  // 初始化表格
   init() {
     this.con = document.getElementsByClassName("con")[0];
     this.domList = document.getElementsByClassName("dom");
     let len = this.domList.length;
-    this.con.onclick = this.conClick;
     for (let i = 0; i < len; i++) {
       let nameEn = this.domList[i].getAttribute("nameEn");
       let yueshu = this.findYueshu(nameEn);
@@ -346,8 +348,126 @@ export default class userPage extends Vue {
         }
       }
     }
+    this.con.onclick = this.conClick;
+    this.getDate()
   }
 
+  // key匹配获取约束
+  findYueshu(nameEn: string) {
+    let len = this.constraint.length;
+    for (let i = 0; i < len; i++) {
+      if (this.constraint[i].nameEn == nameEn) {
+        return this.constraint[i];
+      }
+    }
+    return null;
+  }
+
+  // 初始化输入框
+  setINPUT(dom: any, yueshu: any) {
+    dom.setAttribute("type", yueshu.type);
+    dom.innerText = yueshu.defaultValue;
+    if (yueshu.group) {
+      dom.setAttribute("group", yueshu.group);
+    }
+    if (dom.getAttribute("writeable") == "true") {
+      dom.setAttribute("contenteditable", "true");
+    } else {
+      dom.setAttribute("contenteditable", "false");
+    }
+  }
+  
+  // 初始化单选框
+  setSingle(dom: any, yueshu: any) {
+    dom.setAttribute("type", yueshu.type);
+    if (yueshu.group) {
+      dom.setAttribute("group", yueshu.group);
+    }
+  }
+
+  // 初始化多选框
+  setMutli(dom: any, yueshu: any) {
+    dom.setAttribute("type", yueshu.type);
+    if (yueshu.group) {
+      dom.setAttribute("group", yueshu.group);
+    }
+  }
+
+  // 还原表格数据
+  upDate(data: any) {
+    let len = this.domList.length;
+    for (let i = 0; i < len; i++) {
+      let nameEn = this.domList[i].getAttribute("nameEn");
+      let type = this.domList[i].getAttribute("type");
+      if (type == this.input) {
+        if (typeof data[nameEn] == "object") {
+          this.domList[i].innerText = data[nameEn].shift();
+        } else {
+          this.domList[i].innerText = data[nameEn];
+        }
+      } else if (type == this.single || type == this.mutli) {
+        let str = this.domList[i].innerText;
+        if(data[nameEn]) {
+             this.domList[i].innerText = str.replace("□", "☑");
+        } else {
+            this.domList[i].innerText = str.replace("☑", "□");
+        }
+      } 
+    }
+  }
+  
+  // 提交表格数据
+  commit() {
+    if (!this.judgeCommit()) {
+      return;
+    }
+    let send = {
+        id: '441501199901015056'
+    };
+    let len = this.domList.length;
+    for (let i = 0; i < len; i++) {
+      let type = this.domList[i].getAttribute("type");
+      let nameEn = this.domList[i].getAttribute("nameEn");
+      let value: any = "";
+      if (type == this.input) {
+        value = this.domList[i].innerText;
+      } else if (type == this.mutli) {
+        value = this.domList[i].innerText[0] == "☑";
+      } else if (type == this.single) {
+        value = this.domList[i].innerText[0] == "☑";
+      }
+      this.addSendValue(send, nameEn, value);
+    }
+
+     axios
+      .post("https://qgailab.com:12410/intelligent-form/form/storedata", send)
+      .then(response => {
+       if (response.data.code == 0) {
+           this.$Notice.success({
+          title: "输入有误",
+          desc: "恭喜你，提交成功",
+          duration: 3
+        });
+       }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  // 获取表格输入框数据
+  addSendValue(send: any, nameEn: string, value: any) {
+    if (!send[nameEn]) {
+      send[nameEn] = value;
+    } else if (typeof send[nameEn] != "object") {
+      let arr = [send[nameEn], value];
+      send[nameEn] = arr;
+    } else {
+      send[nameEn].push(value);
+    }
+  }
+
+  // 判断表格输入
   judgeCommit(): Boolean {
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
@@ -368,6 +488,7 @@ export default class userPage extends Vue {
     return true;
   }
 
+  // 长度判断
   judgeLength(nameCh: string, value: any, length: string): Boolean {
     if (length) {
       let min = length.split("-")[0];
@@ -392,10 +513,10 @@ export default class userPage extends Vue {
     return true;
   }
 
+  // 正则判断
   judgeRegular(nameCh: string, value: any, regularExpression: any): Boolean {
     if (regularExpression) {
       let test = new RegExp(regularExpression);
-      console.log(test)
       if (!test.test(value)) {
         this.$Notice.error({
           title: "输入有误",
@@ -408,40 +529,8 @@ export default class userPage extends Vue {
     }
     return true;
   }
-
-  commit() {
-    if (!this.judgeCommit()) {
-      return;
-    }
-    let send = {};
-    let len = this.domList.length;
-    for (let i = 0; i < len; i++) {
-      let type = this.domList[i].getAttribute("type");
-      let nameEn = this.domList[i].getAttribute("nameEn");
-      let value: any = "";
-      if (type == this.input) {
-        value = this.domList[i].innerText;
-      } else if (type == this.mutli) {
-        value = this.domList[i].innerText[0] == "☑";
-      } else if (type == this.single) {
-        value = this.domList[i].innerText[0] == "☑";
-      }
-      this.addSendValue(send, nameEn, value);
-    }
-    console.log(send);
-  }
-
-  addSendValue(send: any, nameEn: string, value: any) {
-    if (!send[nameEn]) {
-      send[nameEn] = value;
-    } else if (typeof send[nameEn] != "object") {
-      let arr = [send[nameEn], value];
-      send[nameEn] = arr;
-    } else {
-      send[nameEn].push(value);
-    }
-  }
-
+ 
+  // 父容器监听单选、多选点击事件
   conClick(event: any): void {
     let target = event.target;
     if (target.getAttribute("type") == this.single) {
@@ -451,43 +540,7 @@ export default class userPage extends Vue {
     }
   }
 
-  findYueshu(nameEn: string) {
-    let len = this.constraint.length;
-    for (let i = 0; i < len; i++) {
-      if (this.constraint[i].nameEn == nameEn) {
-        return this.constraint[i];
-      }
-    }
-    return null;
-  }
-
-  setINPUT(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    dom.innerText = yueshu.defaultValue;
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-    if (dom.getAttribute("writeable") == "true") {
-      dom.setAttribute("contenteditable", "true");
-    } else {
-      dom.setAttribute("contenteditable", "false");
-    }
-  }
-
-  setSingle(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-  }
-
-  setMutli(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-  }
-
+  // 点击单选框
   clickSingle(dom: any) {
     let str = dom.innerText;
     this.initSingle(dom.getAttribute("group"));
@@ -498,6 +551,7 @@ export default class userPage extends Vue {
     }
   }
 
+  // 点击多选框
   clickMutli(dom: any) {
     let str = dom.innerText;
     if (str[0] == "□") {
@@ -506,7 +560,8 @@ export default class userPage extends Vue {
       dom.innerText = str.replace("☑", "□");
     }
   }
-
+  
+  // 还原单选框（配合点击使用）
   initSingle(group: any) {
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
@@ -515,8 +570,9 @@ export default class userPage extends Vue {
         this.domList[i].innerText = str.replace("☑", "□");
       }
     }
-  }
+  }  
 
+  // 获取约束
   getConstraint() {
     this.constraint = [
       {
@@ -539,7 +595,7 @@ export default class userPage extends Vue {
         length: "2-6",
         defaultValue: "key2",
         group: "",
-        regularExpression: "e"
+        regularExpression: "^[\u4E00-\u9FA5]{2,4}$"
       },
       {
         id: 3,
@@ -784,7 +840,8 @@ export default class userPage extends Vue {
     //     console.log(error);
     //   });
   }
-
+  
+  // 获取html文件
   getHtml() {
     // axios
     //   .post("https://qgailab.com:12410/intelligent-form/form/gethtml2", {
@@ -803,6 +860,23 @@ export default class userPage extends Vue {
     //     console.log(error);
     //   });
     this.init();
+  }
+
+  getDate() {
+    axios
+      .post("https://qgailab.com:12410/intelligent-form/form/getdata", {
+        peopleInfo: {
+          id: "441501199901015056"
+        }
+      })
+      .then(response => {
+        if (response.data.code == 0) {
+        this.upDate(response.data.data.dataMap);
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 }
 </script>
