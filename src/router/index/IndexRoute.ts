@@ -8,7 +8,7 @@ export const indexRoute: RouteConfig = {
   redirect: '',
   children: [
     {
-      path: ''
+      path: '',
     }
   ]
 };
