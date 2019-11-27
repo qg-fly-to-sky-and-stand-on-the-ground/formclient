@@ -4,7 +4,7 @@ let baseUrl: string;
 
 if (process.env.NODE_ENV === 'production') {
   // 生产环境下使用真实路径
-  baseUrl = 'http://localhost:12306/auth';
+  baseUrl = 'http://192.168.1.100:12306/auth';
 } else {
   // 非生产环境下，都使用代理服务器
   baseUrl = '/api/auth';

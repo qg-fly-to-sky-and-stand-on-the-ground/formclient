@@ -60,10 +60,12 @@
     </div>
     <div class="main-container">
       <card-certification v-if="stepIndex === 0"></card-certification>
-      <fingerprint-certification v-if="stepIndex === 1"></fingerprint-certification>
+      <fingerprint-certification
+        :img-url="fingerImage"
+        v-if="stepIndex === 1"></fingerprint-certification>
 <!--      <face-certification v-if="stepIndex === 2"></face-certification>-->
       <signature v-if="stepIndex === 2"
-        :img-url="imgUrl"
+        :img-url="signImage"
       ></signature>
       <operation-success v-if="stepIndex === 3"></operation-success>
     </div>
@@ -115,6 +117,10 @@ export default class Regist extends Vue {
 
   text: string = '请放好您的身份证';
 
+  fingerImage: string = '';
+
+  signImage: string = '';
+
   textList: string[] = [
     '请放好您的身份证',
     '请保持手指干净',
@@ -142,9 +148,11 @@ export default class Regist extends Vue {
     }).then(res => {
       if (res.status == 6) {
         this.isMessage = false;
+        let imagesBase64 = res.data;
+        this.fingerImage = imagesBase64 ? imagesBase64 : '';
       } else {
         operationFailMsg('指纹录入失败,请重新')
-        this.scanFinger();
+        // this.scanFinger();
       }
     });
   }
@@ -156,11 +164,11 @@ export default class Regist extends Vue {
     }).then(res => {
       if (res.status == 10) {
         // 签名完成后
-        this.imgUrl = require('@assets/images/sign.png');
+        this.signImage = res.data ? res.data : '';
         this.isMessage = false;
       } else {
         operationFailMsg('签名录入失败，请重新签字');
-        this.signature();
+        // this.signature();
       }
     })
   }
@@ -199,7 +207,7 @@ export default class Regist extends Vue {
         this.idCardCode = res.idCard;
       } else {
         operationFailMsg('身份证卡录入失败，请重新录入身份证卡!');
-        this.readIdCard();
+        // this.readIdCard();
       }
     });
   }
@@ -216,6 +224,7 @@ export default class Regist extends Vue {
     // @ts-ignore
     window.vue = this;
     this.stepIndex = 0;
+    this.readIdCard()
   }
 }
 </script>
