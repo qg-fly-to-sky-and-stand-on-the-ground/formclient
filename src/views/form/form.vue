@@ -35,6 +35,7 @@ export default class userPage extends Vue {
   input = "INPUT";
   mutli = "MULTI_COLUMN";
   single = "SINGLE_COLUMN";
+  url:string = 'http://10.21.56.100:9999/GATEWAY/intelligent-form';
 
   mounted() {
     this.getConstraint();
@@ -50,7 +51,9 @@ export default class userPage extends Vue {
     for (let i = 0; i < len; i++) {
       let nameEn = this.domList[i].getAttribute("key");
       let yueshu = this.findYueshu(nameEn);
-      
+      if(!nameEn) {
+        continue;
+      }
       if (yueshu) {
         if (yueshu.type) {
           // 初始化选择框
@@ -117,10 +120,15 @@ export default class userPage extends Vue {
       id: "441501199901015056"
     };
     let len = this.domList.length;
+    console.log(this.domList);
     for (let i = 0; i < len; i++) {
       let type = this.domList[i].getAttribute("type");
       let nameEn = this.domList[i].getAttribute("key");
       let value: any = "";
+      if(!nameEn) {
+        continue;
+      }
+      console.log(this.domList[i]);
       if (type == this.input) {
         value = this.domList[i].innerText;
       } else if (type == this.mutli) {
@@ -130,9 +138,9 @@ export default class userPage extends Vue {
       }
       this.addSendValue(send, nameEn, value);
     }
-
+    console.log('提交表格数据：', send);
     axios
-      .post("https://qgailab.com:12410/intelligent-form/form/storedata", send)
+      .post(this.url + "/form/storedata", send)
       .then(response => {
         if (response.data.code == 0) {
           this.$Notice.success({
@@ -283,7 +291,7 @@ export default class userPage extends Vue {
   // 获取约束
   getConstraint() {
     axios
-      .post("https://qgailab.com:12410/intelligent-form/form/getconstraint", {
+      .post(this.url + "/form/getconstraint", {
         // peopleInfo: {
         //   id: "441501199901015056"
         // },
@@ -305,7 +313,7 @@ export default class userPage extends Vue {
   // 获取html文件
   getHtml() {
     axios
-      .post("https://qgailab.com:12410/intelligent-form/form/gethtml2", {
+      .post(this.url + "/form/gethtml2", {
         // peopleInfo: {
         //   id: "441501199901015056"
         // },
@@ -325,9 +333,10 @@ export default class userPage extends Vue {
       });
   }
 
+  // 获取表格数据
   getDate() {
     axios
-      .post("https://qgailab.com:12410/intelligent-form/form/getdata", {
+      .post(this.url + "/form/getdata", {
         peopleInfo: {
           id: "441501199901015056"
         }
