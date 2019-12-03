@@ -12,300 +12,12 @@
   display: inline-block;
   margin: 0 auto;
 }
-.b1 {
-  white-space-collapsing: preserve;
-}
-
-.b2 {
-  margin: 1in 1.25in 1in 1.25in;
-}
-
-.p1 {
-  text-align: center;
-  hyphenate: auto;
-  font-family: 方正小标宋简体;
-  font-size: 18pt;
-}
-
-.p2 {
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 14pt;
-}
-
-.p3 {
-  text-align: center;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 12pt;
-}
-
-.p4 {
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 12pt;
-}
-
-.p5 {
-  text-indent: 0.16666667in;
-  text-align: start;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 12pt;
-}
-
-.p6 {
-  text-indent: 0.16666667in;
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 12pt;
-}
-
-.p7 {
-  text-indent: 0.16736111in;
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 宋体;
-  font-size: 12pt;
-}
-
-.p8 {
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 仿宋_GB2312;
-  font-size: 16pt;
-}
-
-.p9 {
-  text-indent: -0.4in;
-  margin-left: 0.4in;
-  text-align: justify;
-  hyphenate: auto;
-  font-family: 仿宋_GB2312;
-  font-size: 16pt;
-}
-
-.p10 {
-  text-align: justify;
-  hyphenate: auto;
-  font-family: Times New Roman;
-  font-size: 10pt;
-}
-
-.td1 {
-  width: 0.575in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.td2 {
-  width: 1.375in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.td3 {
-  width: 4.75in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.td4 {
-  width: 1.25in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.td5 {
-  width: 2.25in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.td6 {
-  width: 6.125in;
-  padding-start: 0in;
-  padding-end: 0in;
-  border-bottom: thin solid black;
-  border-left: thin solid black;
-  border-right: thin solid black;
-  border-top: thin solid black;
-}
-
-.r1 {
-  height: 0.41458333in;
-  keep-together: always;
-}
-
-.r2 {
-  height: 0.5347222in;
-  keep-together: always;
-}
-
-.r3 {
-  height: 0.4965278in;
-  keep-together: always;
-}
-
-.r4 {
-  height: 0.38541666in;
-  keep-together: always;
-}
-
-.r5 {
-  height: 0.45902777in;
-  keep-together: always;
-}
-
-.r6 {
-  height: 0.42569444in;
-  keep-together: always;
-}
-
-.r7 {
-  height: 0.43125in;
-  keep-together: always;
-}
-
-.r8 {
-  height: 0.42708334in;
-  keep-together: always;
-}
-
-.r9 {
-  height: 2.2583334in;
-  keep-together: always;
-}
-
-.r10 {
-  height: 1.0784723in;
-  keep-together: always;
-}
-
-.s1 {
-  font-weight: bold;
-}
-
-.t1 {
-  table-layout: fixed;
-  border-collapse: collapse;
-  border-spacing: 0;
-}
 </style>
 
 <template>
   <div class="userPage">
     <Button class="button" @click="commit">提交</Button>
-    <div class="con">
-      <table class="t1">
-        <tbody>
-          <tr class="r1">
-            <td class="td2">
-              <p class="p3">
-                <span>输入</span>
-              </p>
-            </td>
-            <td class="dom td4" colspan="4" nameEn="key1"></td>
-          </tr>
-          <tr class="r10">
-            <td class="td1" rowspan="3">
-              <p class="p7">
-                <span class="s3">监</span>
-              </p>
-              <p class="p7">
-                <span class="s3">护</span>
-              </p>
-              <p class="p7">
-                <span class="s3">人</span>
-              </p>
-            </td>
-            <td class="td4" colspan="2">
-              <p class="p7">
-                <span class="s3">姓名</span>
-              </p>
-            </td>
-            <td class="td4" colspan="2">
-              <p class="p7">
-                <span class="s3">身份证号码</span>
-              </p>
-            </td>
-          </tr>
-          <tr class="r4">
-            <td writeable="true" nameEn="key2" class="dom td4" colspan="2"></td>
-            <td writeable="true" nameEn="key3" class="dom td4" colspan="2"></td>
-          </tr>
-          <tr class="r4">
-            <td writeable="true" nameEn="key2" class="dom td4" colspan="2"></td>
-            <td writeable="true" nameEn="key3" class="dom td4" colspan="2"></td>
-          </tr>
-          <tr class="r10">
-            <td class="td1">
-              <p class="p3">
-                <span>多</span>
-              </p>
-              <p class="p3">
-                <span>选</span>
-              </p>
-            </td>
-            <td class="td6" colspan="4">
-              <p class="p5">
-                <span writeable="true" nameEn="key6" class="dom">□多选a</span>
-              </p>
-              <p class="p5">
-                <span writeable="true" nameEn="key7" class="dom">□多选b</span>
-              </p>
-              <p class="p5">
-                <span writeable="true" nameEn="key8" class="dom">□多选c</span>
-              </p>
-            </td>
-          </tr>
-          <tr class="r10">
-            <td class="td1">
-              <p class="p3">
-                <span>单</span>
-              </p>
-              <p class="p3">
-                <span>选</span>
-              </p>
-            </td>
-            <td class="td6" colspan="4">
-              <p class="p5">
-                <span writeable="true" nameEn="key9" class="dom">☑单选a</span>
-              </p>
-              <p class="p5">
-                <span writeable="true" nameEn="key10" class="dom">☑单选b</span>
-              </p>
-              <p class="p5">
-                <span writeable="true" nameEn="key11" class="dom">☑单选c</span>
-              </p>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="con" v-html="form"></div>
   </div>
 </template>
 
@@ -321,8 +33,8 @@ export default class userPage extends Vue {
   con: any = {};
   domList: any = [];
   input = "INPUT";
-  mutli = "Mutli";
-  single = "Single";
+  mutli = "MULTI_COLUMN";
+  single = "SINGLE_COLUMN";
 
   mounted() {
     this.getConstraint();
@@ -333,23 +45,33 @@ export default class userPage extends Vue {
   // 初始化表格
   init() {
     this.con = document.getElementsByClassName("con")[0];
-    this.domList = document.getElementsByClassName("dom");
+    this.domList = document.getElementsByClassName("editable");
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
-      let nameEn = this.domList[i].getAttribute("nameEn");
+      let nameEn = this.domList[i].getAttribute("key");
       let yueshu = this.findYueshu(nameEn);
+      
       if (yueshu) {
-        if (yueshu.type == this.input) {
-          this.setINPUT(this.domList[i], yueshu);
-        } else if (yueshu.type == this.mutli) {
-          this.setMutli(this.domList[i], yueshu);
-        } else if (yueshu.type == this.single) {
-          this.setSingle(this.domList[i], yueshu);
+        if (yueshu.type) {
+          // 初始化选择框
+          this.domList[i].setAttribute("type", yueshu.type);
+          if(yueshu.group) {
+            this.domList[i].setAttribute("group", yueshu.group);
+          }
+        } else {
+          // 初始化输入框
+          this.domList[i].setAttribute("type", this.input);
+          this.domList[i].setAttribute("group", yueshu.group);
+          if (this.domList[i].getAttribute("writable") == "true") {
+            this.domList[i].setAttribute("contenteditable", "true");
+          } else {
+            this.domList[i].setAttribute("contenteditable", "false");
+          }
         }
       }
     }
     this.con.onclick = this.conClick;
-    this.getDate()
+    this.getDate();
   }
 
   // key匹配获取约束
@@ -363,41 +85,11 @@ export default class userPage extends Vue {
     return null;
   }
 
-  // 初始化输入框
-  setINPUT(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    dom.innerText = yueshu.defaultValue;
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-    if (dom.getAttribute("writeable") == "true") {
-      dom.setAttribute("contenteditable", "true");
-    } else {
-      dom.setAttribute("contenteditable", "false");
-    }
-  }
-  
-  // 初始化单选框
-  setSingle(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-  }
-
-  // 初始化多选框
-  setMutli(dom: any, yueshu: any) {
-    dom.setAttribute("type", yueshu.type);
-    if (yueshu.group) {
-      dom.setAttribute("group", yueshu.group);
-    }
-  }
-
   // 还原表格数据
   upDate(data: any) {
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
-      let nameEn = this.domList[i].getAttribute("nameEn");
+      let nameEn = this.domList[i].getAttribute("key");
       let type = this.domList[i].getAttribute("type");
       if (type == this.input) {
         if (typeof data[nameEn] == "object") {
@@ -407,27 +99,27 @@ export default class userPage extends Vue {
         }
       } else if (type == this.single || type == this.mutli) {
         let str = this.domList[i].innerText;
-        if(data[nameEn]) {
-             this.domList[i].innerText = str.replace("□", "☑");
+        if (data[nameEn]) {
+          this.domList[i].innerText = str.replace("□", "☑");
         } else {
-            this.domList[i].innerText = str.replace("☑", "□");
+          this.domList[i].innerText = str.replace("☑", "□");
         }
-      } 
+      }
     }
   }
-  
+
   // 提交表格数据
   commit() {
     if (!this.judgeCommit()) {
       return;
     }
     let send = {
-        id: '441501199901015056'
+      id: "441501199901015056"
     };
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
       let type = this.domList[i].getAttribute("type");
-      let nameEn = this.domList[i].getAttribute("nameEn");
+      let nameEn = this.domList[i].getAttribute("key");
       let value: any = "";
       if (type == this.input) {
         value = this.domList[i].innerText;
@@ -439,16 +131,16 @@ export default class userPage extends Vue {
       this.addSendValue(send, nameEn, value);
     }
 
-     axios
+    axios
       .post("https://qgailab.com:12410/intelligent-form/form/storedata", send)
       .then(response => {
-       if (response.data.code == 0) {
-           this.$Notice.success({
-          title: "输入有误",
-          desc: "恭喜你，提交成功",
-          duration: 3
-        });
-       }
+        if (response.data.code == 0) {
+          this.$Notice.success({
+            title: "输入有误",
+            desc: "恭喜你，提交成功",
+            duration: 3
+          });
+        }
       })
       .catch(error => {
         console.log(error);
@@ -473,7 +165,7 @@ export default class userPage extends Vue {
     for (let i = 0; i < len; i++) {
       let type = this.domList[i].getAttribute("type");
       if (type == this.input) {
-        let nameEn = this.domList[i].getAttribute("nameEn");
+        let nameEn = this.domList[i].getAttribute("key");
         let value = this.domList[i].innerText;
         let yueshu = this.findYueshu(nameEn);
         let nameCh = yueshu.nameCh;
@@ -529,10 +221,26 @@ export default class userPage extends Vue {
     }
     return true;
   }
- 
+
   // 父容器监听单选、多选点击事件
   conClick(event: any): void {
     let target = event.target;
+    if (!target.getAttribute("key")) {
+      this.$Notice.warning({
+        title: "提示",
+        desc: "该字段未开放输入/勾选",
+        duration: 1
+      });
+      return;
+    }
+    if (target.getAttribute("writable") == "false") {
+      this.$Notice.warning({
+        title: "提示",
+        desc: "该字段已被禁止输入/勾选",
+        duration: 2
+      });
+      return;
+    }
     if (target.getAttribute("type") == this.single) {
       this.clickSingle(target);
     } else if (target.getAttribute("type") == this.mutli) {
@@ -560,7 +268,7 @@ export default class userPage extends Vue {
       dom.innerText = str.replace("☑", "□");
     }
   }
-  
+
   // 还原单选框（配合点击使用）
   initSingle(group: any) {
     let len = this.domList.length;
@@ -570,296 +278,51 @@ export default class userPage extends Vue {
         this.domList[i].innerText = str.replace("☑", "□");
       }
     }
-  }  
+  }
 
   // 获取约束
   getConstraint() {
-    this.constraint = [
-      {
-        id: 1,
-        nameEn: "key1",
-        nameCh: "输入",
-        des: "",
-        type: "INPUT",
-        length: "",
-        defaultValue: "key1",
-        group: "",
-        regularExpression: ""
-      },
-      {
-        id: 2,
-        nameEn: "key2",
-        nameCh: "姓名",
-        des: "",
-        type: "INPUT",
-        length: "2-6",
-        defaultValue: "key2",
-        group: "",
-        regularExpression: "^[\u4E00-\u9FA5]{2,4}$"
-      },
-      {
-        id: 3,
-        nameEn: "key3",
-        nameCh: "身份证号码",
-        des: "",
-        type: "INPUT",
-        length: "2-100",
-        defaultValue: "key3",
-        group: "",
-        regularExpression: "^[0-9]*$"
-      },
-      {
-        id: 4,
-        nameEn: "key4",
-        nameCh: "",
-        des: "",
-        type: "INPUT",
-        length: "",
-        defaultValue: "key4",
-        group: "",
-        regularExpression: ""
-      },
-      {
-        id: 5,
-        nameEn: "key5",
-        nameCh: "",
-        des: "",
-        type: "INPUT",
-        length: "",
-        defaultValue: "key5",
-        group: "",
-        regularExpression: ""
-      },
-      {
-        id: 6,
-        nameEn: "key6",
-        nameCh: "",
-        des: "",
-        type: "Mutli",
-        length: "",
-        defaultValue: "",
-        group: "group1",
-        regularExpression: ""
-      },
-      {
-        id: 7,
-        nameEn: "key7",
-        nameCh: "",
-        des: "",
-        type: "Mutli",
-        length: "0-8",
-        defaultValue: "",
-        group: "group1",
-        regularExpression: ""
-      },
-      {
-        id: 8,
-        nameEn: "key8",
-        nameCh: "",
-        des: "",
-        type: "Mutli",
-        length: "",
-        defaultValue: "",
-        group: "group1",
-        regularExpression: ""
-      },
-      {
-        id: 9,
-        nameEn: "key9",
-        nameCh: "",
-        des: "",
-        type: "Single",
-        length: "",
-        defaultValue: "",
-        group: "group2",
-        regularExpression: ""
-      },
-      {
-        id: 10,
-        nameEn: "key10",
-        nameCh: "",
-        des: "",
-        type: "Single",
-        length: "",
-        defaultValue: "",
-        group: "group2",
-        regularExpression: ""
-      },
-      {
-        id: 11,
-        nameEn: "key11",
-        nameCh: "",
-        des: "",
-        type: "Single",
-        length: "",
-        defaultValue: "",
-        group: "group2",
-        regularExpression: ""
-      }
-    ];
-    this.getHtml();
-    // axios
-    //   .post("https://qgailab.com:12410/intelligent-form/form/getconstraint", {
-    //     // peopleInfo: {
-    //     //   id: "441501199901015056"
-    //     // },
-    //     form: {
-    //       id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
-    //     }
-    //   })
-    //   .then(response => {
-    //     if (response.data.code == 0) {
-    //       //   this.constraint = response.data.data.constraintList;\
-    //       this.constraint = [
-    //         {
-    //           id: 1,
-    //           nameEn: "key1",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "INPUT",
-    //           length: "",
-    //           defaultValue: "key1",
-    //           group: "",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 2,
-    //           nameEn: "key2",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "INPUT",
-    //           length: "",
-    //           defaultValue: "key2",
-    //           group: "",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 3,
-    //           nameEn: "key3",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "INPUT",
-    //           length: "",
-    //           defaultValue: "key3",
-    //           group: "",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 4,
-    //           nameEn: "key4",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "INPUT",
-    //           length: "",
-    //           defaultValue: "key4",
-    //           group: "",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 5,
-    //           nameEn: "key5",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "INPUT",
-    //           length: "",
-    //           defaultValue: "key5",
-    //           group: "",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 6,
-    //           nameEn: "key6",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Mutli",
-    //           length: "",
-    //           defaultValue: "",
-    //           group: "group1",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 7,
-    //           nameEn: "key7",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Mutli",
-    //           length: "0-8",
-    //           defaultValue: "",
-    //           group: "group1",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 8,
-    //           nameEn: "key8",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Mutli",
-    //           length: "",
-    //           defaultValue: "",
-    //           group: "group1",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 9,
-    //           nameEn: "key9",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Single",
-    //           length: "",
-    //           defaultValue: "",
-    //           group: "group2",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 10,
-    //           nameEn: "key10",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Single",
-    //           length: "",
-    //           defaultValue: "",
-    //           group: "group2",
-    //           regularExpression: ""
-    //         },
-    //         {
-    //           id: 11,
-    //           nameEn: "key11",
-    //           nameCh: "",
-    //           des: "",
-    //           type: "Single",
-    //           length: "",
-    //           defaultValue: "",
-    //           group: "group2",
-    //           regularExpression: ""
-    //         }
-    //       ];
-    //       this.getHtml();
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
+    axios
+      .post("https://qgailab.com:12410/intelligent-form/form/getconstraint", {
+        // peopleInfo: {
+        //   id: "441501199901015056"
+        // },
+        form: {
+          id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
+        }
+      })
+      .then(response => {
+        if (response.data.code == 0) {
+          this.constraint = response.data.data.constraintList;
+          this.getHtml();
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
-  
+
   // 获取html文件
   getHtml() {
-    // axios
-    //   .post("https://qgailab.com:12410/intelligent-form/form/gethtml2", {
-    //     // peopleInfo: {
-    //     //   id: "441501199901015056"
-    //     // },
-    //     form: {
-    //       id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
-    //     }
-    //   })
-    //   .then(response => {
-    //     // this.form = response.data;
-    //     this.init();
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-    this.init();
+    axios
+      .post("https://qgailab.com:12410/intelligent-form/form/gethtml2", {
+        // peopleInfo: {
+        //   id: "441501199901015056"
+        // },
+        form: {
+          id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
+        }
+      })
+      .then(response => {
+        this.form = response.data;
+        setTimeout(()=>{
+          this.init();
+        }, 100)
+        
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   getDate() {
@@ -871,7 +334,7 @@ export default class userPage extends Vue {
       })
       .then(response => {
         if (response.data.code == 0) {
-        this.upDate(response.data.data.dataMap);
+          this.upDate(response.data.data.dataMap);
         }
       })
       .catch(error => {
