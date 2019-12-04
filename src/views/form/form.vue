@@ -35,7 +35,7 @@ export default class userPage extends Vue {
   input = "INPUT";
   mutli = "MULTI_COLUMN";
   single = "SINGLE_COLUMN";
-  url:string = 'http://10.21.56.100:9999/GATEWAY/intelligent-form';
+  url: string = "http://10.21.56.100:9999/FORM/intelligent-form";
 
   mounted() {
     this.getConstraint();
@@ -51,14 +51,14 @@ export default class userPage extends Vue {
     for (let i = 0; i < len; i++) {
       let nameEn = this.domList[i].getAttribute("key");
       let yueshu = this.findYueshu(nameEn);
-      if(!nameEn) {
+      if (!nameEn) {
         continue;
       }
       if (yueshu) {
         if (yueshu.type) {
           // 初始化选择框
           this.domList[i].setAttribute("type", yueshu.type);
-          if(yueshu.group) {
+          if (yueshu.group) {
             this.domList[i].setAttribute("group", yueshu.group);
           }
         } else {
@@ -96,9 +96,16 @@ export default class userPage extends Vue {
       let type = this.domList[i].getAttribute("type");
       if (type == this.input) {
         if (typeof data[nameEn] == "object") {
+          if (data[nameEn].length == 0) {
+            continue;
+          }
           this.domList[i].innerText = data[nameEn].shift();
         } else {
+          if (!data[nameEn]) {
+            continue;
+          }
           this.domList[i].innerText = data[nameEn];
+          data[nameEn] = null;
         }
       } else if (type == this.single || type == this.mutli) {
         let str = this.domList[i].innerText;
@@ -120,15 +127,13 @@ export default class userPage extends Vue {
       id: "441501199901015056"
     };
     let len = this.domList.length;
-    console.log(this.domList);
     for (let i = 0; i < len; i++) {
       let type = this.domList[i].getAttribute("type");
       let nameEn = this.domList[i].getAttribute("key");
       let value: any = "";
-      if(!nameEn) {
+      if (!nameEn) {
         continue;
       }
-      console.log(this.domList[i]);
       if (type == this.input) {
         value = this.domList[i].innerText;
       } else if (type == this.mutli) {
@@ -138,7 +143,8 @@ export default class userPage extends Vue {
       }
       this.addSendValue(send, nameEn, value);
     }
-    console.log('提交表格数据：', send);
+    this.addCalculate(send);
+    console.log("提交表格数据：", send);
     axios
       .post(this.url + "/form/storedata", send)
       .then(response => {
@@ -155,7 +161,55 @@ export default class userPage extends Vue {
       });
   }
 
-  // 获取表格输入框数据
+  // 添加要计算的数据
+  addCalculate(send: any) {
+    let len = this.constraint.length;
+    for (let i = 0; i < len; i++) {
+      let defaultValue = this.constraint[i].defaultValue;
+      if (defaultValue) {
+        let nameEn = this.constraint[i].nameEn;
+        let value = this.calculation(defaultValue, send);
+        this.addSendValue(send, nameEn, value);
+      }
+    }
+  }
+
+  // 处理计算表达式
+  calculation(str: string, send:any) {
+    let arr1 = str.split("${");
+    let arr2 = [];
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] == "") {
+        continue;
+      }
+      let arr = arr1[i].split("}");
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j] == "") {
+          continue;
+        }
+        arr2.push(arr[j]);
+      }
+    }
+    return this.calculate(arr2,send);
+  }
+
+  // 计算
+  calculate(arr:string[],send:any) {
+    let result = Number(send[arr[0]]);
+    for(let i = 1; i < arr.length; i=i+2) {
+      if(arr[i]=='+') {
+        result += Number(send[arr[i+1]]); 
+      } else if(arr[i]=='-') {
+        result -= Number(send[arr[i+1]]); 
+      } else if(arr[i]=='*') {
+        result *= Number(send[arr[i+1]]); 
+      } else if(arr[i]=='/') {
+        result /= Number(send[arr[i+1]]); 
+      }
+    }
+  }
+
+  // 添加要提交的数据
   addSendValue(send: any, nameEn: string, value: any) {
     if (!send[nameEn]) {
       send[nameEn] = value;
@@ -323,10 +377,9 @@ export default class userPage extends Vue {
       })
       .then(response => {
         this.form = response.data;
-        setTimeout(()=>{
+        setTimeout(() => {
           this.init();
-        }, 100)
-        
+        }, 100);
       })
       .catch(error => {
         console.log(error);
