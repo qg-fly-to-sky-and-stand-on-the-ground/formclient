@@ -1,23 +1,115 @@
 <style lang="scss" scoped>
 .userPage {
+  position: relative;
   width: 100vw;
   height: 100vh;
   background: #fff;
-}
-.button {
-  display: block;
-  margin: 2em auto;
-}
-.con {
-  display: inline-block;
-  margin: 0 auto;
+  .chooseFrom {
+    position: absolute;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(1, 1, 1, 0.3);
+    .con {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -14em;
+      margin-left: -18em;
+      padding: 1em;
+      width: 36em;
+      height: 28em;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 0 5px 0 #999;
+      .title {
+        height: 1.5em;
+        color: #666;
+        line-height: 1.5em;
+        text-align: left;
+        font-size: 2em;
+        font-weight: bold;
+      }
+      .listCon {
+        margin: 1em auto;
+        padding: 1em 0;
+        height: 18em;
+        text-align: left;
+        border-radius: 5px;
+        box-shadow: 0 0 5px 0 #aaa;
+        overflow-y: scroll;
+        .list {
+          padding: 0.3em 4em 0.3em 1em;
+          color: #999;
+          .name {
+            color: #777;
+            font-size: 14px;
+          }
+          .des {
+          }
+        }
+        .chooseList {
+          color: #666;
+          background-color: #e3f7e6;
+          background-image: url(../../assets/icons/formChoices.png);
+          background-repeat: no-repeat;
+          background-size: auto 2.5em;
+          background-position: 95% center;
+        }
+      }
+      .buttonCon {
+        padding: 0 2em;
+        height: 3em;
+        line-height: 3em;
+        text-align: right;
+        .buttom {
+          width: 5em;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .form {
+    .button {
+      display: block;
+      margin: 2em auto;
+    }
+    .fromCon {
+      display: inline-block;
+      margin: 0 auto;
+    }
+  }
 }
 </style>
 
 <template>
   <div class="userPage">
-    <Button class="button" @click="commit">提交</Button>
-    <div class="con" v-html="form"></div>
+    <div class="chooseFrom" v-if="choose">
+      <div class="con">
+        <div class="title">选择表单</div>
+        <div class="listCon">
+          <div
+            class="list"
+            v-for="(item, index) in formChoices"
+            :key="index"
+            :class="{chooseList:index==chooseIndex}"
+            @click="chooseIndex=index"
+          >
+            <div class="name">{{item.name}}</div>
+            <div class="des">介绍：{{item.des}}</div>
+            <div class="needInformation">所需材料：{{item.needInformation}}</div>
+          </div>
+        </div>
+        <div class="buttonCon">
+          <Button type="success" class="buttom" ghost @click="selectForm">确定</Button>
+        </div>
+      </div>
+    </div>
+    <div class="from" v-else>
+      <Button class="button" @click="choose=true">重选表单</Button>
+      <Button class="button" @click="commit">提交</Button>
+      <div class="fromCon" v-html="formHtml"></div>
+    </div>
   </div>
 </template>
 
@@ -28,24 +120,76 @@ import axios from "axios";
 
 @Component
 export default class userPage extends Vue {
-  form: string = "";
+  choose: boolean = true;
+  formChoices: any[] = [];
+  chooseIndex: number = 0;
+  peopleInfo: Object = {
+    id: "441501199901015056"
+  };
+  form: Object = {
+    id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
+  };
+  formHtml: string = "";
   constraint: any = [];
   con: any = {};
   domList: any = [];
   input = "INPUT";
   mutli = "MULTI_COLUMN";
   single = "SINGLE_COLUMN";
-  url: string = "http://10.21.56.100:9999/FORM/intelligent-form";
+  url: string = "https://qgailab.com:12410/intelligent-form";
 
   mounted() {
+    this.getChoice();
+    // this.getChoice()->selectForm()->getConstraint()->getHtml()->init()->getDate()->upDate()
+    // 获取表单选项->选择表单->获取约束->获取表格HTML->初始化表格->获取表格数据->还原表格数据
+  }
+
+  getChoice() {
+    axios
+      .get(this.url + "/form/supportform")
+      .then(response => {
+        if (response.data.code == 0) {
+          console.log("表单选项：", response.data.data.formList);
+          this.formChoices = response.data.data.formList;
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  selectForm() {
+    let id = this.formChoices[this.chooseIndex].id;
+    if (this.formChoices.length == 0) {
+      this.$Notice.error({
+        title: "选择有误",
+        desc: `暂无表单可选`,
+        duration: 3
+      });
+      return;
+    }
+    if (
+      this.chooseIndex < 0 ||
+      this.chooseIndex > this.formChoices.length - 1
+    ) {
+      this.$Notice.warning({
+        title: "选择有误",
+        desc: `请选择选`,
+        duration: 3
+      });
+      return;
+    }
+
+    this.form = {
+      id: id
+    };
+    this.choose = false;
     this.getConstraint();
-    // getConstraint()->getHtml()->init()->getDate()->upDate()
-    // 获取约束->获取表格HTML->初始化表格->获取表格数据->还原表格数据
   }
 
   // 初始化表格
   init() {
-    this.con = document.getElementsByClassName("con")[0];
+    this.con = document.getElementsByClassName("fromCon")[0];
     this.domList = document.getElementsByClassName("editable");
     let len = this.domList.length;
     for (let i = 0; i < len; i++) {
@@ -175,7 +319,7 @@ export default class userPage extends Vue {
   }
 
   // 处理计算表达式
-  calculation(str: string, send:any) {
+  calculation(str: string, send: any) {
     let arr1 = str.split("${");
     let arr2 = [];
     for (let i = 0; i < arr1.length; i++) {
@@ -190,21 +334,21 @@ export default class userPage extends Vue {
         arr2.push(arr[j]);
       }
     }
-    return this.calculate(arr2,send);
+    return this.calculate(arr2, send);
   }
 
   // 计算
-  calculate(arr:string[],send:any) {
+  calculate(arr: string[], send: any) {
     let result = Number(send[arr[0]]);
-    for(let i = 1; i < arr.length; i=i+2) {
-      if(arr[i]=='+') {
-        result += Number(send[arr[i+1]]); 
-      } else if(arr[i]=='-') {
-        result -= Number(send[arr[i+1]]); 
-      } else if(arr[i]=='*') {
-        result *= Number(send[arr[i+1]]); 
-      } else if(arr[i]=='/') {
-        result /= Number(send[arr[i+1]]); 
+    for (let i = 1; i < arr.length; i = i + 2) {
+      if (arr[i] == "+") {
+        result += Number(send[arr[i + 1]]);
+      } else if (arr[i] == "-") {
+        result -= Number(send[arr[i + 1]]);
+      } else if (arr[i] == "*") {
+        result *= Number(send[arr[i + 1]]);
+      } else if (arr[i] == "/") {
+        result /= Number(send[arr[i + 1]]);
       }
     }
   }
@@ -346,15 +490,12 @@ export default class userPage extends Vue {
   getConstraint() {
     axios
       .post(this.url + "/form/getconstraint", {
-        // peopleInfo: {
-        //   id: "441501199901015056"
-        // },
-        form: {
-          id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
-        }
+        //peopleInfo: this.peopleInfo,
+        form: this.form
       })
       .then(response => {
         if (response.data.code == 0) {
+          console.log("约束：", response.data.data.constraintList);
           this.constraint = response.data.data.constraintList;
           this.getHtml();
         }
@@ -368,15 +509,11 @@ export default class userPage extends Vue {
   getHtml() {
     axios
       .post(this.url + "/form/gethtml2", {
-        // peopleInfo: {
-        //   id: "441501199901015056"
-        // },
-        form: {
-          id: "ae8a7da6-d7ed-4aac-bc45-1e6dd528fa95"
-        }
+        //peopleInfo: this.peopleInfo,
+        form: this.form
       })
       .then(response => {
-        this.form = response.data;
+        this.formHtml = response.data;
         setTimeout(() => {
           this.init();
         }, 100);
@@ -390,12 +527,11 @@ export default class userPage extends Vue {
   getDate() {
     axios
       .post(this.url + "/form/getdata", {
-        peopleInfo: {
-          id: "441501199901015056"
-        }
+        peopleInfo: this.peopleInfo
       })
       .then(response => {
         if (response.data.code == 0) {
+          console.log("表单数据：", response.data.data.dataMa);
           this.upDate(response.data.data.dataMap);
         }
       })
