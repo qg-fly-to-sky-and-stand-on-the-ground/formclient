@@ -1,4 +1,5 @@
 <style lang="scss" scoped>
+@import "scss/mixin";
 .login-container {
   position: relative;
   width: 100%;
@@ -14,10 +15,11 @@
   }
 
   .choice-box-container {
+    @include flex-center;
     position: relative;
     width: 330px;
     height: 330px;
-    margin: 50px auto;
+    margin: 0px auto;
 
     .choice-box-word {
       display: block;
@@ -46,10 +48,11 @@
         :key="item.name"
         :color="item.color"
         style="float: left;"
-        :style="index >= 2? 'margin-top: 0.27rem;' : ''"
         @click="choiceMethod(index)"
       ><span class="choice-box-word">{{ item.name }}</span></choice-box>
     </div>
+<!--
+        :style="index >= 2? 'margin-top: 0.27rem;' : ''"-->
   </div>
 </template>
 
@@ -68,14 +71,14 @@ export default class Entry extends Vue {
       color: 'purple',
       name: '身份证登陆'
     },
-    {
-      color: 'blue',
-      name: '指纹登陆'
-    },
-    {
-      color: 'green',
-      name: '扫脸登录'
-    },
+    // {
+    //   color: 'blue',
+    //   name: '指纹登陆'
+    // },
+    // {
+    //   color: 'green',
+    //   name: '扫脸登录'
+    // },
     {
       color: 'brown',
       name: '注册'
@@ -89,7 +92,7 @@ export default class Entry extends Vue {
       return ;
     }
     this.isLoading = true;
-    if (index == 3) {
+    if (index == 1) {
       // 检查机器
       checkMachineRequest.checkIdCard({
         idCardMachine: 1
@@ -106,6 +109,9 @@ export default class Entry extends Vue {
           operationFailMsg('存在机器故障，请前往其他机器上办理业务');
         }
       });
+    }
+    if (index == 0) {
+      this.$router.push('/login')
     }
   }
 }

@@ -147,14 +147,14 @@ export default class Card extends Vue {
 
   readIDCard() {
     idCardRequest.readIDCardToLogin({
-      IdCardMachine: "1"
+      idCardMachine: "1"
     }).then(res => {
       if (res.status == 11) {
         // 登陆成功
         this.stepIndex++;
         this.text = '登陆成功，正在跳转页面';
         setTimeout(() => {
-          this.$router.push('');
+          this.$router.push('/index/form');
         }, 500);
       } else if (res.status == 4) {
         // 登陆失败
@@ -164,6 +164,7 @@ export default class Card extends Vue {
         operationFailMsg('您未注册，请前往注册页面进行注册');
       } else {
         // 请求失败时候
+        operationFailMsg('通过身份证进行登陆的请求失败')
       }
     });
   }
@@ -182,7 +183,6 @@ export default class Card extends Vue {
 
   mounted() {
     this.checkMachine();
-    window.vue = this;
   }
 }
 </script>

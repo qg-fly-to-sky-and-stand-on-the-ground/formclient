@@ -13,7 +13,7 @@ class IDCardRequest extends Request {
   }
 
   public readIDCardToLogin(data: {
-    IdCardMachine: string;
+    idCardMachine: string;
   }) {
     return this.post('/login', data);
   }

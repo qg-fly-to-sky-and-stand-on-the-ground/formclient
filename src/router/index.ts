@@ -14,7 +14,7 @@ const routes = [
 const router = new VueRouter({
   routes: [{
     path: '/',
-    redirect: '/index',
+    redirect: '',
   }, {
     path: '/index',
     redirect: '/index/form',

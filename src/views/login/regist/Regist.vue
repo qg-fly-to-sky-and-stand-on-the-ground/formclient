@@ -259,6 +259,12 @@ export default class Regist extends Vue {
     idCardRequest.readIDCardInfo({
       idCardMachine: 1
     }).then(res => {
+      if (res.status == 2) {
+        this.text = '该账户已经注册，正在跳转进业务页面...';
+        setTimeout(() => {
+          this.$router.push('/index/form');
+        }, 500);
+      }
       if (res.status == 4) {
         // 读取身份证成功，
         this.isMessage = false;
