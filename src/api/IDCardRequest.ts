@@ -11,6 +11,12 @@ class IDCardRequest extends Request {
   }) {
     return this.post('/loadIdCard', data);
   }
+
+  public readIDCardToLogin(data: {
+    IdCardMachine: string;
+  }) {
+    return this.post('/login', data);
+  }
 }
 
 // 单例模式导出唯一请求对象供其他模块使用

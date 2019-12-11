@@ -62,11 +62,9 @@
       <card-certification v-if="stepIndex === 0"></card-certification>
       <fingerprint-certification
         :img-url="fingerImage"
-        :status="fingerStatus"
         v-if="stepIndex === 1"></fingerprint-certification>
       <face-certification
         v-if="stepIndex === 2"
-        :status="faceStatus"
         :img-url="faceImage"
       ></face-certification>
       <signature v-if="stepIndex === 3"
@@ -119,7 +117,7 @@ import {faceRequest} from "@/api/FaceRequest";
     CustomButton,
     Signature, CardCertification, FingerprintCertification, FaceCertification, BackButton, StepLine}
 })
-export default class Regist extends Vue {
+export default class LoginMethod extends Vue {
   stepIndex: number = 0;
 
   stepList: string[] = ['身份认证', '指纹认证', '人脸识别', '签名确认'];
@@ -134,7 +132,7 @@ export default class Regist extends Vue {
 
   textList: string[] = [
     '请放好您的身份证',
-    '请保持手指干净，并且扫描三次指纹',
+    '请保持手指干净',
     '请直视摄像头',
     '请在规定的区域签写真实姓名'
   ];
@@ -151,10 +149,6 @@ export default class Regist extends Vue {
 
   isShowReset: boolean = true;
 
-  fingerStatus: boolean = false;
-
-  faceStatus: boolean = false;
-
   resetNameList: string[] = [
     '重新扫描',
     '重新扫描',
@@ -163,7 +157,6 @@ export default class Regist extends Vue {
   ];
 
   scanFinger() {
-    this.fingerStatus = !this.fingerStatus;
     fingerRequest.scanFinger({
       fingerMachine: 1,
       idCard: this.idCardCode
@@ -172,11 +165,7 @@ export default class Regist extends Vue {
         this.isMessage = false;
         let imagesBase64 = res.data;
         this.fingerImage = imagesBase64 ? imagesBase64 : '';
-      } else if (res.status == -2) {
-        setTimeout(() => {
-          this.scanFinger();
-        }, 2000)
-      }  else {
+      } else {
         operationFailMsg('指纹录入失败,请点击重新输入')
         this.isMessage = false;
         this.isShowConfirm = false;
@@ -194,10 +183,6 @@ export default class Regist extends Vue {
         this.signImage = res.data ? res.data : '';
         this.isMessage = false;
         this.isShowReset = false;
-      } else if (res.status == -2) {
-        setTimeout(() => {
-          this.signature();
-        }, 2000)
       } else {
         operationFailMsg('签名录入失败，请点击重新录入');
         this.isMessage = false;
@@ -235,7 +220,6 @@ export default class Regist extends Vue {
   }
 
   scanFace() {
-    this.faceStatus = !this.fingerStatus;
     faceRequest.faceCert({
       faceIDMachine: 1,
       idCard: this.idCardCode
@@ -243,10 +227,6 @@ export default class Regist extends Vue {
       if (res.status == 8) {
         this.isMessage = false;
         this.faceImage = res.data;
-      } else if (res.status == -2) {
-        setTimeout(() => {
-          this.scanFace();
-        }, 2000)
       } else {
         operationFailMsg('人脸识别失败，请点击重新录入')
         this.isMessage = false;
@@ -263,10 +243,6 @@ export default class Regist extends Vue {
         // 读取身份证成功，
         this.isMessage = false;
         this.idCardCode = res.idCard;
-      } else if (res.status == -2) {
-        setTimeout(() => {
-          this.readIdCard();
-        }, 2000)
       } else {
         operationFailMsg('身份证卡录入失败，请点击重新录入');
         this.isMessage = false;

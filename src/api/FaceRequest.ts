@@ -7,10 +7,10 @@ import {Request} from '@/api/config';
 class FaceRequest extends Request {
   // 人像对比
   public faceCert(data: {
-    "signatureMachine": number;
+    "faceIDMachine": number;
     "idCard": string;
   }) {
-    return this.post('/signature', data);
+    return this.post('/faceID', data);
   }
 }
 

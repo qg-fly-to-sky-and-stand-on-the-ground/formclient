@@ -82,15 +82,26 @@ export default class Entry extends Vue {
     }
   ];
 
+  isLoading: boolean = false;
+
   choiceMethod(index: number) {
+    if (this.isLoading) {
+      return ;
+    }
+    this.isLoading = true;
     if (index == 3) {
       // 检查机器
       checkMachineRequest.checkIdCard({
         idCardMachine: 1
       }).then(res => {
+        this.isLoading = false;
         if (res.status == 13) {
           // 操作成功，进入注册页面
           this.$router.push('/regist');
+        } else if (res.status == -2) {
+          setTimeout(() => {
+            this.choiceMethod(3);
+          }, 2000)
         } else {
           operationFailMsg('存在机器故障，请前往其他机器上办理业务');
         }

@@ -14,6 +14,12 @@ export const loginRoute: RouteConfig = {
         title: '入口'
       },
       component: () => import('@/views/login/Entry.vue')
+    },
+    {
+      name: '登陆',
+      path: '',
+      meta: {},
+      component: () => import('@/views/login/loginMethod/card/Card.vue')
     }
   ]
 };

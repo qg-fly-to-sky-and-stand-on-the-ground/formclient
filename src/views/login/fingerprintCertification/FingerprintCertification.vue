@@ -92,9 +92,13 @@ import {Prop, Watch} from "vue-property-decorator";
 export default class FingerprintCertification extends Vue {
   @Prop(String) imgUrl!: string;
 
+  @Prop(Boolean) status!: boolean;
+
   oldImg: string = require('@assets/icons/finger.png');
 
   newImg: string = require('@assets/icons/finger.png');
+
+  localImage: string = require('@assets/icons/finger.png');
 
   scanClazz: string = '';
 
@@ -119,6 +123,11 @@ export default class FingerprintCertification extends Vue {
   @Watch('newImg')
   newImageHandler() {
 
+  }
+
+  @Watch('status')
+  handler() {
+    this.newImg = this.localImage;
   }
 
   mounted() {
